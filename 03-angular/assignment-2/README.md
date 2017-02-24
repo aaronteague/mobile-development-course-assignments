@@ -1,6 +1,3 @@
-# Assignment 2
-Complete the [Tour of Heroes](https://angular.io/docs/ts/latest/tutorial/) tutorial. 
-
 # Angular QuickStart Source
 [![Build Status][travis-badge]][travis-badge-url]
 
