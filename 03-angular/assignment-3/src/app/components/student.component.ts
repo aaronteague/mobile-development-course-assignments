@@ -54,9 +54,21 @@ export class StudentComponent implements OnInit{
     
   }
 
+  updatePerformance(): void{
+    this.tPoints = this.assignmentList.reduce(this.getPointsScored, 0);
+   this.tPointsPossible = this.assignmentList.reduce(this.getPointsPossible, 0);
+   this.tGrade = this.tPoints / this.tPointsPossible;
+   this.tLetterGrade = this.getLetterGrade(this.tGrade);
+  }
+
+  refresh(): void {
+    this.data.getAllAssignments().then(res => {this.assignmentList = res; this.updatePerformance()}).catch(res => console.log("error getting all data"));
+
+
+  }
+
   ngOnInit(): void {
-    this.data.getAllAssignments().subscribe(res => this.assignmentList = res);
-    console.log(this.assignmentList);
+    this.refresh();
   }
 
 
@@ -71,7 +83,7 @@ export class StudentComponent implements OnInit{
     }
     
     
-    this.assignmentList.push(a);
+   // this.assignmentList.push(a);
 
 
    
@@ -81,14 +93,12 @@ export class StudentComponent implements OnInit{
    
    
 
-   this.tPoints = this.assignmentList.reduce(this.getPointsScored, 0);
-   this.tPointsPossible = this.assignmentList.reduce(this.getPointsPossible, 0);
-   this.tGrade = this.tPoints / this.tPointsPossible;
-   this.tLetterGrade = this.getLetterGrade(this.tGrade);
+
 
 
     this.data.addAssignment(a);
   
+    this.refresh();
 
   }
 
@@ -103,9 +113,9 @@ export class StudentComponent implements OnInit{
   }
 
   removeAssignment(index: number){
-    this.data.deleteAssignment(this.assignmentList[index]);
-      this.assignmentList.splice(index, 1);
-      
+    this.data.deleteAssignment(this.assignmentList[index]).then(res => this.refresh());
+    //  this.assignmentList.splice(index, 1);
+   //   this.refresh();
   }
 
 
